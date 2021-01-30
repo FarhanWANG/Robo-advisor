@@ -1,0 +1,203 @@
+{% extends "web/base.html" %}
+{% block content %}
+
+    {% if exist %}
+    <style>
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 20px 0px 20px 0px;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+    }
+
+    .styled-table thead tr {
+        background-color: #1200b1;
+        color: #ffffff;
+        text-align: left
+    }
+    .styled-table td {
+        padding: 12px 0px;
+    }
+    .styled-table tbody tr {
+        background-color: #f0faff;
+        border-bottom: 3px solid #356bff;
+    }
+    
+    </style>
+        <h1>Optimal Portfolio</h1>
+        <h5>Maximal Return: {{ maximal }}</h5>
+        <h5 style="padding-bottom: 30px">Sharpe Ratio: {{ sharpe }}</h5>           
+        <h3>Stocks</h3>
+            <table  class="styled-table" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Buying Price</th>
+                    <th>Price</th>
+                    <th>Weight</th>
+                </tr>
+                </thead>
+                {% for price, weight, stock in object_list %}
+                    {% if not stock.coin%}
+                    <tbody>
+                        <tr>
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.name }}</td>
+                        <td>{{ stock.buying_price }}</td>
+                        <td>{{ price  }}</td>
+                        <td>{{ weight }}</td>
+                        </tr>
+                    </tbody>
+                    {%endif%}
+                {% endfor %}
+            </table>
+        <h3>Cryptocurrency</h3>
+            <table class="styled-table" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Buying Price</th>
+                    <th>Price</th>
+                    <th>Weight</th>
+                </tr>
+                </thead>
+                {% for price, weight, stock in object_list %}
+                    {% if stock.coin%}
+                    <tbody>
+                        <tr>
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.name }}</td>
+                        <td>{{ stock.buying_price }}</td>
+                        <td>{{ price  }}</td>
+                        <td>{{ weight }}</td>
+                        </tr>
+                    </tbody>
+                    {%endif%}
+                {% endfor %}
+            </table>
+            <div style="padding-top: 30px">
+                <canvas id="pie-chart" width="800" height="450"></canvas>
+            </div>
+            <div style="padding-top: 30px">
+                <canvas id="myChart" height="300" width="800"></canvas>
+            </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    
+    <script> 
+        var stock_data = JSON.parse("{{ stockdata|escapejs }}");
+        var whole_data = JSON.parse("{{ wholedata|escapejs }}");
+        var var_list = [];
+
+        for(var i=0; i<stock_data.labels.length; ++i){
+            var color = [
+                    "#f38b4a",
+                    "#56d798",
+                    "#ff8397",
+                    "#6970d5" 
+                ]
+            var_list[i] = {
+                borderColor:color[i],
+                backgroundColor:"transparent",
+                label: stock_data.labels[i],
+                data: stock_data.hist_prices[i],
+                };
+        }
+
+    </script>
+    
+    <script>
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: { datasets: var_list },
+            options: {
+                title: {
+                    display: true,
+                    fontColor:'black',
+                    fontSize:25,
+                    text: 'Stock Price Prediction for Next 3 days'
+                },
+                scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        fontSize:14,
+                        fontColor:'black',
+                        labelString: 'Time'
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        fontSize:14,
+                        fontColor:'black',
+                        labelString: 'Stock Price'
+                    }
+                }]
+                
+                },
+                
+            },
+            
+        });
+    </script>
+
+<script>
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        new Chart(document.getElementById("pie-chart"), {
+        type: 'bar',
+        data: {
+            labels: whole_data.labels,
+            datasets: [{
+            label: "Weight",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000',
+            data: whole_data.weights
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Your Optimal Portfolio',
+            fontSize:25,
+            fontColor:'black'
+          },
+          legend:{
+              labels:{
+                  fontColor:'black',
+              }
+          },
+          layout:{
+              padding:{
+                  left:50,
+                  right:0,
+                  bottom:0,
+                  top:0
+              }
+          }
+        }
+    });
+    </script>
+    {% else %}
+    <p>
+    <h1 style="text-align:center;color:#000000;">Welcome back {{ user.username }}</h1>
+    <a class="nav-item nav-link" style="font-size: 30px; color:#356bff;text-align: center" href="{% url 'portfolio-risk' %}">Create your customized portfolio!</a>
+    </p>
+
+    {% endif %}
+{% endblock content %}
+

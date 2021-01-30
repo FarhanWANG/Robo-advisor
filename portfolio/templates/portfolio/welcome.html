@@ -1,0 +1,8 @@
+{% extends "web/base.html" %}
+{% block content %}
+<p>
+    <h1 style="text-align:center;color:#000000;">Welcome back {{ user.username }}</h1>
+    <a class="nav-item nav-link" style="font-size: 30px; color:#356bff;text-align: center" href="{% url 'portfolio-risk' %}">Create your customized portfolio!</a>
+</p>
+{% endblock content %}
+

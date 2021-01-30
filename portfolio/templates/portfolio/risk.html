@@ -1,0 +1,62 @@
+{% extends "web/base.html" %}
+{% block content %}
+    <h1>Evaluation your risk perference</h1>
+    <p></p>
+   <style>
+       .head{
+           font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+           font-size: 30px;
+       }
+   </style>
+
+   <form action="/portfolio/" method="get">
+
+       <p class="head">What percentage of your savings are you investing?</p>
+       <p><input type="radio" name="savings" value="5"> Less than 20%</p>
+       <p><input type="radio" name="savings" value="4"> Between 20% and 30%</p>
+       <p><input type="radio" name="savings" value="3"> Between 30% and 40%</p>
+       <p><input type="radio" name="savings" value="2"> Between 40% and 50%</p>
+       <p><input type="radio" name="savings" value="1"> More than 50%</p>
+
+       <p class="head">How long is yout expected investment period?</p>
+       <p><input type="radio" name="period" value="1"> Below 1 year</p>
+       <p><input type="radio" name="period" value="2"> 1 - 2 years</p>
+       <p><input type="radio" name="period" value="3"> 3 - 4 years</p>
+       <p><input type="radio" name="period" value="4"> 4 - 5 years</p>
+       <p><input type="radio" name="period" value="5"> More than 5 years</p>
+
+       <p class="head">
+           What percentage of your monthly income do you usually spend,
+           excluding investments in stocks, bonds and cryptocurrencies? ?
+       </p>
+       <p><input type="radio" name="income" value="5"> Less than 50%</p>
+       <p><input type="radio" name="income" value="4"> Between 50% and 60%</p>
+       <p><input type="radio" name="income" value="3"> Between 60% and 70%</p>
+       <p><input type="radio" name="income" value="2"> Between 70% and 80%</p>
+       <p><input type="radio" name="income" value="1"> More than 80%</p>
+
+       <p class="head">What is your net worth?</p>
+       <p><input type="radio" name="worth" value="1"> Below 200000 HKD</p>
+       <p><input type="radio" name="worth" value="2"> Between 200000 HKD and 300000 HKD</p>
+       <p><input type="radio" name="worth" value="3"> Between 300000 HKD and 400000 HKD</p>
+       <p><input type="radio" name="worth" value="4"> Between 400000 HKD and 500000 HKD</p>
+       <p><input type="radio" name="worth" value="5"> Above 500000 HKD</p>
+
+       <p class="head">What is your age?</p>
+       <p><input type="radio" name="age" value="1"> 20 - 30 years old</p>
+       <p><input type="radio" name="age" value="2"> 30 - 40 years old</p>
+       <p><input type="radio" name="age" value="3"> 40 - 50 years old</p>
+       <p><input type="radio" name="age" value="4"> 50 - 60 years old</p>
+       <p><input type="radio" name="age" value="5"> Above 60 years old</p>
+
+       <p class="head">What is your status about investments?</p>
+       <p><input type="radio" name="status" value="1"> I want to invest in a simple way</p>
+       <p><input type="radio" name="status" value="3"> I am eager to learn</p>
+       <p><input type="radio" name="status" value="5"> I am an experienced investor</p>
+
+
+
+
+       <p><input type="submit" value="Submit!"></p>
+   </form>
+{% endblock content %}
