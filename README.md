@@ -4,4 +4,5 @@
 
 watch this tutorial for more details https://www.youtube.com/playlist?list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p
 
-admin£º superuser
+admin: superuser
+CUHK rex12345 (better without cuda)
